@@ -144,6 +144,32 @@ Default Configuration:
 
 ---
 
+## 🚀 One-Click Colab Setup
+
+Run this cell to set everything up instantly!
+
+```python
+# 🚀 ONE-CLICK SETUP
+# Run this cell to set everything up!
+
+# Check GPU
+import torch
+assert torch.cuda.is_available(), "⚠️ Enable GPU: Runtime > Change runtime type > GPU"
+
+# Clone repository
+!git clone https://github.com/abhishekadile/Transformer_Repo-.git
+%cd Transformer_Repo-
+
+# Install dependencies
+!pip install -q torch numpy tqdm huggingface_hub datasets
+
+# Start Hackathon!
+# (Leaderboard upload happens automatically with embedded token)
+!python run_hackathon.py
+```
+
+---
+
 ## 🔧 Optimization Ideas
 
 Here are proven techniques to improve your model:

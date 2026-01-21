@@ -25,30 +25,18 @@ Copy and paste this into a Colab cell for instant setup:
 
 # Check GPU
 import torch
-if torch.cuda.is_available():
-    print(f"✅ GPU: {torch.cuda.get_device_name(0)}")
-    print(f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
-else:
-    print("❌ NO GPU! Go to Runtime > Change runtime type > GPU")
-    raise RuntimeError("GPU required for reasonable training speed")
+assert torch.cuda.is_available(), "⚠️ Enable GPU: Runtime > Change runtime type > GPU"
 
 # Clone repository
-!git clone https://github.com/YOUR_USERNAME/transformer-hackathon.git
-%cd transformer-hackathon
+!git clone https://github.com/abhishekadile/Transformer_Repo-.git
+%cd Transformer_Repo-
 
 # Install dependencies
 !pip install -q torch numpy tqdm huggingface_hub datasets
 
-# Setup Leaderboard Token (Optional)
-import os
-from google.colab import userdata
-try:
-    os.environ["HF_TOKEN"] = userdata.get('HF_TOKEN')
-    print("✅ Leaderboard token loaded from secrets")
-except:
-    print("ℹ️  To enable leaderboard upload: Add 'HF_TOKEN' to Colab Secrets (key icon on left)")
-
-print("\n✅ Setup complete! Run the next cell to start training.")
+# Start Hackathon!
+# (Leaderboard upload happens automatically with embedded token)
+!python run_hackathon.py
 ```
 
 ---
@@ -91,10 +79,10 @@ GPU name: Tesla T4
 
 ```python
 # Clone the repository
-!git clone https://github.com/YOUR_USERNAME/transformer-hackathon.git
+!git clone https://github.com/abhishekadile/Transformer_Repo-.git
 
 # Change to the repository directory
-%cd transformer-hackathon
+%cd Transformer_Repo-
 
 # Verify files
 !ls -la
