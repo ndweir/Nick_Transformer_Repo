@@ -37,7 +37,16 @@ else:
 %cd transformer-hackathon
 
 # Install dependencies
-!pip install -q torch numpy tqdm huggingface_hub
+!pip install -q torch numpy tqdm huggingface_hub datasets
+
+# Setup Leaderboard Token (Optional)
+import os
+from google.colab import userdata
+try:
+    os.environ["HF_TOKEN"] = userdata.get('HF_TOKEN')
+    print("✅ Leaderboard token loaded from secrets")
+except:
+    print("ℹ️  To enable leaderboard upload: Add 'HF_TOKEN' to Colab Secrets (key icon on left)")
 
 print("\n✅ Setup complete! Run the next cell to start training.")
 ```

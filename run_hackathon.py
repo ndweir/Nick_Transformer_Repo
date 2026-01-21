@@ -81,33 +81,21 @@ def get_participant_info() -> Dict[str, str]:
 
 
 def check_huggingface_token() -> Optional[str]:
-    """Check and configure Hugging Face token."""
-    print("\n🔑 HUGGING FACE CONFIGURATION")
+    """Check Hugging Face token from environment (Colab secrets or env var)."""
+    print("\n🔑 LEADERBOARD CONFIGURATION")
     print("-" * 50)
     
-    # Check environment variable
+    # Check environment variable (set by Colab secrets or manually)
     token = os.environ.get("HF_TOKEN")
     if token:
-        print("✓ Found HF_TOKEN in environment variables")
-        # Mask the token for display
         masked = token[:4] + "..." + token[-4:] if len(token) > 8 else "****"
-        print(f"  Token: {masked}")
-        use_existing = input("Use this token? (Y/n): ").strip().lower()
-        if use_existing not in ('n', 'no'):
-            return token
-    
-    # Ask for token
-    print("\nTo upload results to the leaderboard, you need a Hugging Face token.")
-    print("Get one at: https://huggingface.co/settings/tokens")
-    print("(Leave blank to skip leaderboard upload)")
-    
-    token = input("\nEnter HF token: ").strip()
-    if token:
-        os.environ["HF_TOKEN"] = token
-        print("✓ Token saved for this session")
+        print(f"✅ Found HF token: {masked}")
+        print("   Leaderboard upload enabled!")
         return token
     
-    print("⚠ Continuing without HF token (results will be saved locally)")
+    print("ℹ️  No HF_TOKEN found in environment")
+    print("   Results will be saved locally")
+    print("   To enable leaderboard: set HF_TOKEN environment variable")
     return None
 
 
