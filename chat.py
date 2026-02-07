@@ -84,11 +84,22 @@ def load_model(checkpoint_path: str, device: torch.device):
     # Load checkpoint
     checkpoint = torch.load(checkpoint_path, map_location=device)
     
+    # Get vocab_size from checkpoint (critical for TinyStories!)
+    vocab_size = checkpoint.get('vocab_size', None)
+    
+    # If not in checkpoint, try to get from tokenizer
+    if vocab_size is None:
+        if 'vocab' in checkpoint:
+            vocab_size = len(checkpoint['vocab'])
+        elif 'tokenizer' in checkpoint and 'char_to_id' in checkpoint['tokenizer']:
+            vocab_size = len(checkpoint['tokenizer']['char_to_id'])
+        else:
+            vocab_size = 65  # Fallback default
+    
     # Get model config
     model_config = checkpoint.get('model_config', {})
-    vocab_size = checkpoint.get('vocab_size', 65)
     
-    # Create model
+    # Create model with correct vocab_size
     model = GPTModel(
         vocab_size=vocab_size,
         d_model=model_config.get('d_model', 512),
