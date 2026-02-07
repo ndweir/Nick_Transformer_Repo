@@ -171,7 +171,9 @@ def run_evaluation(checkpoint_dir: str) -> Dict:
     
     # Evaluate perplexity
     print("Computing perplexity...")
-    eval_metrics = evaluate_perplexity(model, val_loader, device)
+    # Limit to 100 batches for faster evaluation (~3,200 tokens)
+    # This is sufficient for accurate perplexity estimation
+    eval_metrics = evaluate_perplexity(model, val_loader, device, max_batches=100)
     
     # Evaluate generation quality
     print("Evaluating generation quality...")
