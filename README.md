@@ -67,6 +67,7 @@ Transformer_Repo-/
 ├── train.py                  # Training script
 ├── evaluate.py               # Evaluation script
 ├── generate.py               # Text generation
+├── chat.py                   # 🤖 Interactive chat interface (NEW!)
 └── run_hackathon.py          # 🏆 Main hackathon script
 ```
 
@@ -217,6 +218,59 @@ assert torch.cuda.is_available(), "⚠️ Enable GPU: Runtime > Change runtime t
 ```
 
 ---
+
+## 🤖 Interactive Chat with Your Model
+
+**NEW!** Chat with your trained model in real-time using our ChatGPT-like interface!
+
+```python
+# After training, chat with your model!
+!python chat.py
+```
+
+### Features
+
+- 💬 **ChatGPT-like interface** - Interactive terminal chat
+- 💡 **Smart prompt suggestions** - Tailored for TinyStories
+- 🏆 **Auto-loads best checkpoint** - Uses `best.pt` automatically
+- ⚡ **Real-time generation** - See your model's creativity!
+
+### Example Session
+
+```
+You: Once upon a time
+🤖 Model: there was a little girl named Lily. She loved to play with her toys...
+
+You: A boy named
+🤖 Model: Tom went to the park. He saw a big tree and wanted to climb it...
+```
+
+### Prompt Suggestions
+
+The chat interface includes 10 built-in prompts perfect for TinyStories:
+- "Once upon a time"
+- "One day, a little"
+- "There was a"
+- "A boy named" / "A girl named"
+- And more!
+
+### Custom Settings
+
+```python
+# Longer responses
+!python chat.py --max-tokens 300
+
+# More creative (higher temperature)
+!python chat.py --temperature 1.0
+
+# More focused (lower temperature)
+!python chat.py --temperature 0.5
+```
+
+📖 **Full guide:** See [CHAT_GUIDE.md](CHAT_GUIDE.md) for detailed usage and tips!
+
+---
+
 
 ## 🔧 Optimization Ideas
 
