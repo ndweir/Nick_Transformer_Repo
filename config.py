@@ -30,10 +30,10 @@ class ModelConfig:
     TODO: Try increasing n_layers or d_model for better performance!
     """
     vocab_size: int = 5000
-    d_model: int = 512
+    d_model: int = 384
     n_heads: int = 8
     n_layers: int = 6
-    d_ff: int = 2048
+    d_ff: int = 1536
     max_seq_len: int = 128
     dropout: float = 0.1
     
@@ -70,7 +70,7 @@ class TrainingConfig:
     max_time_minutes: float = 60.0  # Updated from 45 for 1-hour training
     
     # Batch settings
-    batch_size: int = 16
+    batch_size: int = 8
     eval_batch_size: int = 32
     
     # TODO: Try gradient accumulation for effectively larger batch sizes!
@@ -84,8 +84,8 @@ class TrainingConfig:
     # Learning rate schedule
     # TODO: Experiment with different schedules!
     lr_scheduler: str = "cosine"  # Options: "cosine", "linear", "constant"
-    warmup_ratio: float = 0.1  # Fraction of training for warmup
-    min_lr_ratio: float = 0.1  # Minimum LR as fraction of initial LR
+    warmup_ratio: float = 0.05  # Fraction of training for warmup
+    min_lr_ratio: float = 0.01  # Minimum LR as fraction of initial LR
     
     # Gradient clipping
     max_grad_norm: float = 1.0
