@@ -33,6 +33,7 @@ import torch
 import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.amp import autocast
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -59,25 +60,25 @@ def parse_args():
     # Training settings
     parser.add_argument("--max-time", type=float, default=45.0,
                        help="Maximum training time in minutes")
-    parser.add_argument("--batch-size", type=int, default=16,
+    parser.add_argument("--batch-size", type=int, default=4,
                        help="Training batch size")
-    parser.add_argument("--seq-len", type=int, default=128,
+    parser.add_argument("--seq-len", type=int, default=64,
                        help="Sequence length")
-    parser.add_argument("--lr", type=float, default=3e-4,
+    parser.add_argument("--lr", type=float, default=5e-4,
                        help="Learning rate")
     
     # Model settings
-    parser.add_argument("--d-model", type=int, default=512,
+    parser.add_argument("--d-model", type=int, default=256,
                        help="Model dimension")
-    parser.add_argument("--n-layers", type=int, default=6,
+    parser.add_argument("--n-layers", type=int, default=4,
                        help="Number of transformer layers")
-    parser.add_argument("--n-heads", type=int, default=8,
+    parser.add_argument("--n-heads", type=int, default=4,
                        help="Number of attention heads")
     
     # Optimization
     parser.add_argument("--use-amp", action="store_true",
                        help="Use automatic mixed precision (FP16)")
-    parser.add_argument("--grad-accum-steps", type=int, default=1,
+    parser.add_argument("--grad-accum-steps", type=int, default=2,
                        help="Gradient accumulation steps")
     parser.add_argument("--max-grad-norm", type=float, default=1.0,
                        help="Maximum gradient norm for clipping")
@@ -97,7 +98,7 @@ def parse_args():
     # Logging
     parser.add_argument("--log-interval", type=int, default=10,
                        help="Steps between logging")
-    parser.add_argument("--eval-interval", type=int, default=500,
+    parser.add_argument("--eval-interval", type=int, default=300,
                        help="Steps between evaluation")
     
     # Misc

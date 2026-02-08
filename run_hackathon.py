@@ -110,24 +110,24 @@ def run_training(training_time: float = 45.0) -> Dict:
     # Import training module
     from train import train
     
-    # Create args namespace
+    # Create args namespace with Colab-optimized values
     class Args:
-        max_time = 60  # Updated from 45 for 1-hour training
-        batch_size = 16
-        seq_len = 128
-        lr = 3e-4
-        d_model = 512
-        n_layers = 6
-        n_heads = 8
+        max_time = 45.0  # Optimized for Colab free tier timeout
+        batch_size = 4   # Optimized for T4 GPU (15GB VRAM)
+        seq_len = 64     # Reduced from 128
+        lr = 5e-4        # Adjusted for smaller model
+        d_model = 256    # Optimized for Colab
+        n_layers = 4     # Reduced from 6
+        n_heads = 4      # Reduced from 8
         use_amp = torch.cuda.is_available()  # Auto-enable on GPU
-        grad_accum_steps = 1
+        grad_accum_steps = 2  # Gradient accumulation (effective bs=8)
         max_grad_norm = 1.0
         checkpoint_dir = "checkpoints"
         checkpoint_interval = 5.0
         resume = False
         data_path = None
-        log_interval = 100  # Log every 100 steps (reduced from 10 to avoid spam)
-        eval_interval = 500
+        log_interval = 100  # Log every 100 steps
+        eval_interval = 300  # Reduced from 500
         seed = 42
         quiet = False
     
