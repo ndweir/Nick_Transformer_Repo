@@ -33,7 +33,6 @@ import torch
 import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
-from torch.cuda.amp import GradScaler, autocast
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -269,7 +268,7 @@ def train(args):
     scheduler = get_lr_scheduler(optimizer, total_steps, warmup_steps)
     
     # Mixed precision
-    scaler = GradScaler(enabled=args.use_amp)
+    scaler = torch.amp.GradScaler(device_type='cuda' if torch.cuda.is_available() else 'cpu', enabled=args.use_amp)
     if args.use_amp:
         print("   Using mixed precision (FP16)")
     
@@ -326,7 +325,7 @@ def train(args):
                 x, y = x.to(device), y.to(device)
                 
                 # Forward pass with mixed precision
-                with autocast(enabled=args.use_amp):
+                with torch.amp.autocast(device_type='cuda' if torch.cuda.is_available() else 'cpu', enabled=args.use_amp):
                     output = model(x, labels=y)
                     loss = output.loss / args.grad_accum_steps
                 

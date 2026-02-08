@@ -30,11 +30,11 @@ class ModelConfig:
     TODO: Try increasing n_layers or d_model for better performance!
     """
     vocab_size: int = 5000
-    d_model: int = 384
-    n_heads: int = 8
-    n_layers: int = 6
-    d_ff: int = 1536
-    max_seq_len: int = 128
+    d_model: int = 256
+    n_heads: int = 4
+    n_layers: int = 4
+    d_ff: int = 1024
+    max_seq_len: int = 64
     dropout: float = 0.1
     
     # Activation function for FFN
@@ -67,17 +67,17 @@ class TrainingConfig:
     TODO: Experiment with batch size and learning rate!
     """
     # Time constraint
-    max_time_minutes: float = 60.0  # Updated from 45 for 1-hour training
+    max_time_minutes: float = 45.0  # Safe margin before Colab timeout
     
     # Batch settings
-    batch_size: int = 8
-    eval_batch_size: int = 32
+    batch_size: int = 4
+    eval_batch_size: int = 16
     
-    # TODO: Try gradient accumulation for effectively larger batch sizes!
-    gradient_accumulation_steps: int = 1
+    # Gradient accumulation: effectively batch_size=8 with memory of batch_size=4
+    gradient_accumulation_steps: int = 2
     
     # Optimizer settings
-    learning_rate: float = 3e-4
+    learning_rate: float = 5e-4
     weight_decay: float = 0.1
     betas: tuple = (0.9, 0.95)
     
@@ -90,17 +90,17 @@ class TrainingConfig:
     # Gradient clipping
     max_grad_norm: float = 1.0
     
-    # TODO: Enable mixed precision for faster training on modern GPUs!
-    use_mixed_precision: bool = False
+    # Mixed precision: ~2x speedup and lower memory usage
+    use_mixed_precision: bool = True
     
     # Checkpointing
     checkpoint_interval_minutes: float = 5.0
     checkpoint_dir: str = "checkpoints"
-    keep_last_n_checkpoints: int = 3
+    keep_last_n_checkpoints: int = 2
     
     # Logging
     log_interval_steps: int = 10
-    eval_interval_steps: int = 500
+    eval_interval_steps: int = 300
     
     # Random seed for reproducibility
     seed: int = 42
@@ -122,8 +122,8 @@ class DataConfig:
         
     TODO: Try different datasets or data augmentation!
     """
-    dataset_name: str = "tinystories"  # Changed from "tiny_shakespeare"
-    max_stories: int = 40000  # Optimized for 1-hour T4 GPU training
+    dataset_name: str = "tinystories"  # High-quality story dataset
+    max_stories: int = 20000  # Optimized for 45-minute T4 GPU training (~50MB)
     data_dir: str = "data/raw"
     
     # Data splits
